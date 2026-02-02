@@ -62,7 +62,7 @@ def main():
     parser.add_argument('--use_role', type=bool, default=False, help='Use task-specific persona')
     parser.add_argument('--run_type', type=str, default='test', required=False, choices=['full', 'test'])
     parser.add_argument('--inference_type', type=str, default='real-time', required=False, choices=['batch', 'real-time'])
-    parser.add_argument('--max_token', type=int, default=768, required=False)
+    parser.add_argument('--max_token', type=int, default=512, required=False)
     args = parser.parse_args()
 
 

@@ -108,7 +108,7 @@ def parse_response(task_type, raw_response, metadata=None):
             cleaned_response = output_match.group(1).strip()
         
         match = re.search(r'\b([123])\b', cleaned_response)
-        print(cleaned_response)
+        # print(cleaned_response)
         
         # 메타데이터에서 정답 매핑 로드
         answer_map = metadata.get('answer_map_obj')
@@ -125,7 +125,7 @@ def parse_response(task_type, raw_response, metadata=None):
             
             # 매핑된 라벨 반환 (Biased, Counter, Neutral)
             parsed_type = answer_map.get(selected_num, "OutOfRange")
-            print(f"Selected: {selected_num} -> {parsed_type}")
+            # print(f"Selected: {selected_num} -> {parsed_type}")
             
             return parsed_type, {"selected_num": selected_num}
         else:

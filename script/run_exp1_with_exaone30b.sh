@@ -1,13 +1,13 @@
 #!/bin/bash
 
-TASKS=("character") # "("character" "plot")
-MODELS=("exaone-7b") # ("gpt-5.1" "gpt-5.2" "exaone-7b" "exaone-32b" "llama-7b" "llama-70b" "qwen-8b" "qwen-14b" "gpt-oss-20b")
-DATA_SEEDS=(42) #(42 43 44 45 46)
-MODEL_SEEDS=(42) #(42 43)
+TASKS=("plot") # "("character" "plot")
+MODELS=("exaone-30b") # ("gpt-5.1" "gpt-5.2" "exaone-7b" "exaone-32b" "llama-7b" "llama-70b" "qwen-8b" "qwen-14b" "gpt-oss-20b")
+DATA_SEEDS=(42 43 44 45 46) #(42 43 44 45 46)
+MODEL_SEEDS=(42 43) #(42 43)
 
 INPUT_DIR="./data"
 OUTPUT_DIR="./results"
-SAMPLING_COUNT=1 # 10
+SAMPLING_COUNT=10 # 10
 TEMPERATURE=0.0
 
 for task in "${TASKS[@]}"; do
@@ -40,7 +40,10 @@ for task in "${TASKS[@]}"; do
                     --dataset_seed "$d_seed" \
                     --model_seed "$m_seed" \
                     --sampling_count "$SAMPLING_COUNT" \
-                    --temperature "$TEMPERATURE"
+                    --temperature "$TEMPERATURE" \
+                    --max_token 64 \
+                    --run_type "test"
+
 
                 if [ $? -ne 0 ]; then
                     echo "Error occurred during execution."
