@@ -71,7 +71,8 @@ def main():
     df = data_loader.load_and_preprocess(
         file_path=full_input_path,
         count=args.sampling_count,
-        seed=args.dataset_seed
+        seed=args.dataset_seed,
+        run_type=args.run_type
     )
     print("데이터 로드 완료: ", len(df))
     model_handler = api_client.get_model_handler(args.model_name)
