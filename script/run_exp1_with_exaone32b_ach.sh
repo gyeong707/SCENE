@@ -1,7 +1,7 @@
 #!/bin/bash
 
 TASKS=("plot") # "("character" "plot")
-MODELS=("exaone-30b") # ("gpt-5.1" "gpt-5.2" "exaone-7b" "exaone-32b" "llama-7b" "llama-70b" "qwen-8b" "qwen-14b" "gpt-oss-20b")
+MODELS=("exaone-32b") # ("gpt-5.1" "gpt-5.2" "exaone-7b" "exaone-32b" "llama-7b" "llama-70b" "qwen-8b" "qwen-14b" "gpt-oss-20b")
 DATA_SEEDS=(42 43 44 45 46) #(42 43 44 45 46)
 MODEL_SEEDS=(42 43) #(42 43)
 

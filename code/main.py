@@ -243,10 +243,15 @@ def main():
     # ------------------------------------------------------------------
     # 평가 및 저장 (Evaluation)
     # ------------------------------------------------------------------
+    # raw 결과 저장
+    raw_folder = os.path.join(args.output_path, "raw")
+    os.makedirs(raw_folder, exist_ok=True)
+    
+    raw_save_name = f"{args.task_type}_{args.model_name}_d{args.dataset_seed}_m{args.model_seed}_raw.csv"
+    raw_save_path = os.path.join(raw_folder, raw_save_name)
     result_df = pd.DataFrame(results)
-    raw_save_name = f"{base_name}_{args.task_type}_{args.model_name}_raw_result.csv"
-    raw_save_path = os.path.join(args.output_path, raw_save_name)
-    result_df.to_csv(raw_save_path, index=False, encoding='utf-8-sig')    
+    result_df.to_csv(raw_save_path, index=False, encoding='utf-8-sig')
+    print(f"\nRaw 결과 저장 완료: {raw_save_path}")
 
     if 'custom_id' in result_df.columns:
         # req_0, req_1 에서 숫자만 추출하여 정렬
@@ -256,19 +261,23 @@ def main():
     print("\nEvaluating...")
     evaluated_df, stats = evaluator.evaluate(result_df, args.task_type)   
 
+    # evaluation 결과 저장
+    eval_folder = os.path.join(args.output_path, "evaluation")
+    os.makedirs(eval_folder, exist_ok=True)
+    
     if args.output_file:
         save_name = args.output_file
     else:
-        base_name = os.path.splitext(args.input_file)[0]
-        save_name = f"{base_name}_{args.task_type}_result.csv"
+        clean_model_name = args.model_name.replace("/", "_").replace("\\", "_")
+        save_name = f"result_{args.task_type}_{clean_model_name}_d{args.dataset_seed}_m{args.model_seed}.csv"
     
-    save_path = os.path.join(args.output_path, save_name)
+    save_path = os.path.join(eval_folder, save_name)
     evaluated_df.to_csv(save_path, index=False, encoding='utf-8-sig')
     print(f"\n최종 결과 저장 완료: {save_path}")
 
+    # summary 저장
     current_date = datetime.now().strftime("%Y%m%d")
-    clean_model_name = args.model_name.replace("/", "_").replace("\\", "_")
-    summary_filename = f"Summary_{args.task_type}_{clean_model_name}_T{args.temperature}_{current_date}.csv"
+    summary_filename = f"summary_{args.task_type}_{args.model_name}_T{args.temperature}_{current_date}.csv"
     summary_file_path = os.path.join(args.output_path, summary_filename)
     save_experiment_summary(args, stats, summary_path=summary_file_path)
     return 

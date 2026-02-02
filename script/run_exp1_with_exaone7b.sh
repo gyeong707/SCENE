@@ -50,7 +50,7 @@ for task in "${TASKS[@]}"; do
                     exit 1 
                 fi
                 
-                echo ""
+                echo "done."
             done
         done
     done

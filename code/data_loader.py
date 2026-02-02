@@ -11,7 +11,7 @@ def load_and_preprocess(file_path, count=None, seed=42, run_type='test'):
     print(f"Loading Dataset...: {file_path}")
     try:
         if run_type == 'test':
-            df = pd.read_csv(file_path).head(500)
+            df = pd.read_csv(file_path).head(50)
         else: 
             df = pd.read_csv(file_path)
     except Exception as e:
