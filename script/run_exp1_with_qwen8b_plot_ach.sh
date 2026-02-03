@@ -1,9 +1,9 @@
 #!/bin/bash
 
 TASKS=("plot") # "("character" "plot")
-MODELS=("exaone-7b") # ("gpt-5.1" "gpt-5.2" "exaone-7b" "exaone-32b" "llama-7b" "llama-70b" "qwen-8b" "qwen-14b" "gpt-oss-20b")
-DATA_SEEDS=(42 43 44 45 46) #(42 43 44 45 46)
-MODEL_SEEDS=(42 43) #(42 43)
+MODELS=("qwen-8b") # ("gpt-5.1" "gpt-5.2" "exaone-7b" "exaone-32b" "llama-7b" "llama-70b" "qwen-8b" "qwen-14b" "gpt-oss-20b")
+DATA_SEEDS=(42) #(42 43 44 45 46)
+MODEL_SEEDS=(42) #(42 43)
 
 INPUT_DIR="./data"
 OUTPUT_DIR="./results"
@@ -41,8 +41,8 @@ for task in "${TASKS[@]}"; do
                     --model_seed "$m_seed" \
                     --sampling_count "$SAMPLING_COUNT" \
                     --temperature "$TEMPERATURE" \
-                    --max_token 64 \
-                    --run_type test
+                    --max_token 512 \
+                    --run_type full
 
 
                 if [ $? -ne 0 ]; then
@@ -50,7 +50,7 @@ for task in "${TASKS[@]}"; do
                     exit 1 
                 fi
                 
-                echo "done."
+                echo ""
             done
         done
     done

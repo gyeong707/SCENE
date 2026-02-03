@@ -34,7 +34,6 @@ def get_template(task_type):
                 B: [선택한 단어]
                 
                 선택된 답변:
-                A:
                 """
     
     elif task_type == 'plot':

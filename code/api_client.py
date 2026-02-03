@@ -70,7 +70,7 @@ class OpenAIHandler(BaseHandler):
             "url": "/v1/chat/completions",
             "body": body
         }
-        print(self._build_messages(prompt, system_content))
+        # print(self._build_messages(prompt, system_content))
         return json.dumps(request_obj)
     
 

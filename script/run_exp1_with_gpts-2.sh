@@ -1,7 +1,7 @@
 #!/bin/bash
 
 TASKS=("character" "plot") # "("character" "plot")
-MODELS=("gpt-5.1") # ("gpt-5.1" "gpt-5.2" "exaone-7b" "exaone-32b" "llama-7b" "llama-70b" "qwen-8b" "qwen-14b" "gpt-oss-20b")
+MODELS=("gpt-5.2") # ("gpt-5.1" "gpt-5.2" "exaone-7b" "exaone-32b" "llama-7b" "llama-70b" "qwen-8b" "qwen-14b" "gpt-oss-20b")
 DATA_SEEDS=(42 43 44 45 46) #(42 43 44 45 46)
 MODEL_SEEDS=(42 43) #(42 43)
 
@@ -40,7 +40,11 @@ for task in "${TASKS[@]}"; do
                     --dataset_seed "$d_seed" \
                     --model_seed "$m_seed" \
                     --sampling_count "$SAMPLING_COUNT" \
-                    --temperature "$TEMPERATURE"
+                    --temperature "$TEMPERATURE" \
+                    --inference_type batch \
+                    --run_type full
+
+
 
                 if [ $? -ne 0 ]; then
                     echo "Error occurred during execution."

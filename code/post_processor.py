@@ -25,7 +25,7 @@ def parse_response(task_type, raw_response, metadata=None):
             raw_response = raw_response.split('assistantfinal')[-1].strip()
 
         val_a, val_b = "", ""
-        print("Raw response: ", raw_response) 
+        # print("Raw response: ", raw_response) 
         
         # 1-2. 줄 단위로 A, B 답변 추출
         for line in raw_response.split('\n'):
@@ -35,8 +35,9 @@ def parse_response(task_type, raw_response, metadata=None):
             elif re.search(r'^B\s*[:\.]', line, re.IGNORECASE):
                 val_b = clean_text(re.sub(r'^B\s*[:\.]', '', line, flags=re.IGNORECASE))
         
-        # 1-3. 포맷 매칭 실패 (A나 B가 없음) -> [수정] "Error" 반환
+        # 1-3. 포맷 매칭 실패 (A나 B가 없음) -> "Error" 반환
         if not val_a or not val_b:
+            print(f"[Validation Error] Reason: format_mismatch_missing_AB | A: '{val_a}', B: '{val_b}'")
             return "Error", {
                 "parsing_failed": True, 
                 "reason": "format_mismatch_missing_AB", 
@@ -52,20 +53,21 @@ def parse_response(task_type, raw_response, metadata=None):
             
             # --- 검증 내부 함수 ---
             def validate_choice(extracted_text, candidates):
-                print("validating...")
                 found_matches = [c for c in candidates if c in extracted_text]
                 
                 if len(found_matches) > 1:
+                    print(f"[Validation Error] Reason: ambiguous_multiple_matches | A: '{val_a}', B: '{val_b}'")
                     return None, "ambiguous_multiple_matches"
                 
                 if not found_matches:
+                    print(f"[Validation Error] Reason: no_match_found | A: '{val_a}', B: '{val_b}'")
                     return None, "no_match_found"
                 
                 match = found_matches[0]
-                if (len(extracted_text) - len(match)) > 5: 
+                if (len(extracted_text) - len(match)) > 5:
+                    print(f"[Validation Error] excessive_noise(len_diff={len(extracted_text) - len(match)})")
                     return None, f"excessive_noise(len_diff={len(extracted_text) - len(match)})"
 
-                print("No Errors.")
                 return match, None
             # ---------------------
 
@@ -88,7 +90,7 @@ def parse_response(task_type, raw_response, metadata=None):
             val_b = final_b
 
         parsed = f"{val_a}/{val_b}"
-        print("Parsed results: ", parsed)
+        # print("Parsed results: ", parsed)
         return parsed, None
 
     # ==========================================================================
